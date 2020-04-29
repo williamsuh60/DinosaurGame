@@ -3,7 +3,7 @@ var myObstacles = [];
 var myScore;
 
 function startGame() {
-    myGamePiece = new component(30, 30, "green", 10, 120);
+    myGamePiece = new component(30, 30, "green", 10, 120, "", 45, 15);
     myGamePiece.gravity = 10;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
@@ -13,15 +13,14 @@ function startGame() {
 
 function keyActionDown(e) {
     e = e || window.event;
-    if(e.keyCode == '38'){                     //up arrow
-        accelerate(-.01);
+    if(e.keyCode == '38'){                      //up arrow
+        accelerate(-.02);
     }
-    else if(e.keyCode == '40'){                 //down arrow
-        myGamePiece.height = myGamePiece.height/2;
-        myGamePiece.width = myGamePiece.width*1.5;
-        time.sleep(3000);
-        myGamePiece.height = myGamePiece.height*2;
-        myGamePiece.width = myGamePiece.width/1.5;
+    else if(e.keyCode == '40'){                 //down arrow       
+        if(myGamePiece.limitWidth>myGamePiece.width&&myGamePiece.limitHeight<myGamePiece.height){
+            myGamePiece.width = myGamePiece.width*1.5;
+            myGamePiece.height = myGamePiece.height/2;
+        }
     }
 }
 
@@ -51,7 +50,9 @@ var myGameArea = {
     }
 }
 
-function component(width, height, color, x, y, type) {
+function component(width, height, color, x, y, type, limitWidth = 0, limitHeight = 0) {
+    this.limitWidth = limitWidth;
+    this.limitHeight = limitHeight;
     this.type = type;
     this.score = 0;
     this.width = width;
@@ -120,7 +121,7 @@ function updateGameArea() {
         minGap = 50;
         maxGap = 200;
         gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myObstacles.push(new component(10, height, "white", x, 0));                             //either top or bottom obstacle part
+        //myObstacles.push(new component(10, height, "white", x, 0));                             //either top or bottom obstacle part
         myObstacles.push(new component(10, x - height - gap, "white", x, height + gap));
     }
     for (i = 0; i < myObstacles.length; i += 1) {
