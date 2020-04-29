@@ -3,10 +3,37 @@ var myObstacles = [];
 var myScore;
 
 function startGame() {
-    myGamePiece = new component(30, 30, "orange", 10, 120);
-    myGamePiece.gravity = 0.05;
+    myGamePiece = new component(30, 30, "green", 10, 120);
+    myGamePiece.gravity = 10;
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
+    document.onkeydown = keyActionDown;
+    document.onkeyup = keyActionUp;
+}
+
+function keyActionDown(e) {
+    e = e || window.event;
+    if(e.keyCode == '38'){                     //up arrow
+        accelerate(-.01);
+    }
+    else if(e.keyCode == '40'){                 //down arrow
+        myGamePiece.height = myGamePiece.height/2;
+        myGamePiece.width = myGamePiece.width*1.5;
+        time.sleep(3000);
+        myGamePiece.height = myGamePiece.height*2;
+        myGamePiece.width = myGamePiece.width/1.5;
+    }
+}
+
+function keyActionUp(e){
+    e = e || window.event;
+    if(e.keyCode == '38'){
+        accelerate(.05);
+    }
+    else if(e.keyCode == '40'){
+        myGamePiece.height = myGamePiece.height*2;
+        myGamePiece.width = myGamePiece.width/1.5;
+    }
 }
 
 var myGameArea = {
