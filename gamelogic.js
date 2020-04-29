@@ -3,8 +3,9 @@ var myObstacles = [];
 var myScore;
 
 function startGame() {
-    myGamePiece = new component(30, 30, "green", 10, 120, "", 45, 15);
+    myGamePiece = new component(30, 30, "green", 10, 120, "circle", 45, 15);
     myGamePiece.gravity = 10;
+    myGamePiece.id = "GamePiece";
     myScore = new component("30px", "Consolas", "black", 280, 40, "text");
     myGameArea.start();
     document.onkeydown = keyActionDown;
@@ -69,7 +70,13 @@ function component(width, height, color, x, y, type, limitWidth = 0, limitHeight
             ctx.font = this.width + " " + this.height;
             ctx.fillStyle = color;
             ctx.fillText(this.text, this.x, this.y);
-        } else {
+        } else if(this.type == "circle"){
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.ellipse(this.x, this.y, this.width, this.height, 0, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+        else{
             ctx.fillStyle = color;
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
